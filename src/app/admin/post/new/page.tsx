@@ -1,49 +1,34 @@
-import { Button } from '@/Components/Button';
-import { BanIcon, BugIcon, CheckIcon } from 'lucide-react';
+import { InputText } from '@/Components/InputText';
 
 export const dynamic = 'force-dynamic';
 
-export default function AdminNewPage() {
+export default async function AdminNewPage() {
   return (
-    <div>
-      <div className='py-16 flex gap-4 flex-wrap items-center'>
-        <Button variant='default' size='sm' type='submit'>
-          <BugIcon /> Confirma
-        </Button>
-        <Button variant='ghost' size='md' type='submit'>
-          <BugIcon />
-          Confirma
-        </Button>
-        <Button variant='danger' size='lg' type='submit'>
-          <BugIcon />
-          Confirma
-        </Button>
-      </div>
-      <div className='py-16 flex gap-4 flex-wrap items-center'>
-        <Button variant='default' size='sm' type='submit' disabled>
-          <BugIcon /> Confirma
-        </Button>
-        <Button variant='ghost' size='md' type='submit' disabled>
-          <BugIcon />
-          Confirma
-        </Button>
-        <Button variant='danger' size='lg' type='submit' disabled>
-          <BugIcon />
-          Confirma
-        </Button>
-        <Button variant='danger' size='lg' type='submit' className='w-full'>
-          <BugIcon />
-          Confirma
-        </Button>
-        <Button variant='ghost' size='lg' type='submit' className='w-full'>
-          <BanIcon />
-          Cancel
-        </Button>
-        <Button variant='default' size='lg' type='submit' className='w-full'>
-          <CheckIcon />
-          OK
-        </Button>
-      </div>
+    <div className='flex flex-col gap-6'>
+      <InputText LabelText='Nome' placeholder='Digite seu nome' />
+      <InputText LabelText='Sobrenome' placeholder='Digite seu sobrenome' />
+      <InputText
+        LabelText='Sobrenome'
+        disabled
+        placeholder='Digite seu sobrenome'
+        defaultValue='Olá Mundo'
+      />
+      <InputText
+        LabelText='Sobrenome'
+        disabled
+        placeholder='Digite seu sobrenome'
+      />
+      <InputText
+        LabelText='Sobrenome'
+        placeholder='Digite seu sobrenome'
+        readOnly
+      />
+      <InputText
+        LabelText='Sobrenome'
+        placeholder='Digite seu sobrenome'
+        defaultValue='Olá Mundo'
+        readOnly
+      />
     </div>
   );
 }
