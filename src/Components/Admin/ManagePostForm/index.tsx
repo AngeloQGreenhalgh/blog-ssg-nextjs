@@ -3,8 +3,11 @@
 import { Button } from '@/Components/Button';
 import { InputCheckbox } from '@/Components/InputCheckbox';
 import { InputText } from '@/Components/InputText';
+import { MarkdownEditor } from '@/Components/MarkdownEditor';
+import { useState } from 'react';
 
 export function ManagePostForm() {
+  const [contentValue, setContentValue] = useState('Este é **um** exemplo.');
   return (
     <form action='' className='mb-16'>
       <div className='flex flex-col gap-6'>
@@ -19,6 +22,15 @@ export function ManagePostForm() {
           placeholder='Digite seu sobrenome'
           defaultValue='Olá Mundo'
         />
+
+        <MarkdownEditor
+          labelText='Conteúdo'
+          disabled={false}
+          textAreaName='content'
+          value={contentValue}
+          setValue={setContentValue}
+        />
+
         <InputText
           LabelText='Sobrenome'
           disabled
