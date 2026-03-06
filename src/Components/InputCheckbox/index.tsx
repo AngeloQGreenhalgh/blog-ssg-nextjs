@@ -2,12 +2,12 @@ import clsx from 'clsx';
 import { useId } from 'react';
 
 type InputCheckboxProps = {
-  labelText?: string;
+  LabelText?: string;
   type?: 'checkbox';
 } & React.ComponentProps<'input'>;
 
 export function InputCheckbox({
-  labelText = '',
+  LabelText = '',
   type = 'checkbox',
   ...props
 }: InputCheckboxProps) {
@@ -25,9 +25,9 @@ export function InputCheckbox({
         type={type}
       />
 
-      {labelText && (
+      {LabelText && (
         <label className='text-sm' htmlFor={id}>
-          {labelText}
+          {LabelText}
         </label>
       )}
     </div>
