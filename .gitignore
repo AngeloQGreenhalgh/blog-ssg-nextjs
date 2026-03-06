@@ -1,5 +1,8 @@
 # Remover a base de dados do projeto é uma ótima prática, pois ela não faz parte do projeto principal
-db.sqlite3 
+db.sqlite3
+
+#Remover o conteúdo da pasta uploads, manter somente a pasta uploads
+uploads/
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
