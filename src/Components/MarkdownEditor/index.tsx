@@ -41,7 +41,7 @@ export function MarkdownEditor({
           setValue(value);
         }}
         height={400}
-        extraCommands={[]}
+        //extraCommands={[]}
         preview='edit'
         hideToolbar={disabled}
         textareaProps={{

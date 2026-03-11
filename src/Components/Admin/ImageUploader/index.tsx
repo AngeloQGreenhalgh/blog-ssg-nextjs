@@ -8,7 +8,11 @@ import { ImageUpIcon } from 'lucide-react';
 import { useRef, useState, useTransition } from 'react';
 import { toast } from 'react-toastify';
 
-export function ImageUploader() {
+type ImageUploaderProps = {
+  disabled?: boolean;
+};
+
+export function ImageUploader({ disabled = false }: ImageUploaderProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Chamarar a action: 'useTransition'
@@ -72,7 +76,7 @@ export function ImageUploader() {
         onClick={handleChooseFile}
         type='button'
         className='self-start'
-        disabled={isUploading}
+        disabled={isUploading || disabled}
       >
         <ImageUpIcon />
         Enviar uma imagem
@@ -96,7 +100,7 @@ export function ImageUploader() {
         name='file'
         type='file'
         accept='image/*'
-        disabled={isUploading}
+        disabled={isUploading || disabled}
       />
     </div>
   );

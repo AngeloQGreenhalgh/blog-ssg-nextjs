@@ -58,47 +58,101 @@ export class DrizzlePostRepository implements PostRepository {
     }
     return post;
   }
-  async create(postData: PostModel): Promise<PostModel> {
-    throw new Error('Method not implemented.');
+
+  async create(post: PostModel): Promise<PostModel> {
+    const postExists = await drizzleDb.query.posts.findFirst({
+      where: (posts, { or, eq }) =>
+        or(eq(posts.id, post.id), eq(posts.slug, post.slug)),
+      columns: { id: true },
+    });
+
+    if (!!postExists) {
+      throw new Error('Post com ID ou Slug já existe na base de dados');
+    }
+
+    await drizzleDb.insert(postTable).values(post);
+    return post;
   }
+
   async update(
     id: string,
-    postData: Partial<PostModel>,
-  ): Promise<PostModel | null> {
-    const { id: _, ...dataToUpdate } = postData;
+    newPostData: Omit<PostModel, 'id' | 'slug' | 'createdAt' | 'updatedAt'>,
+  ): Promise<PostModel> {
+    const oldPost = await drizzleDb.query.posts.findFirst({
+      where: (posts, { or, eq }) => eq(posts.id, id),
+    });
 
-    // monta dinamicamente os campos a atualizar
-    const fieldsToUpdate: Partial<PostModel> = {};
+    if (!oldPost) {
+      throw new Error('Post não existe');
+    }
 
-    if (dataToUpdate.title !== undefined)
-      fieldsToUpdate.title = dataToUpdate.title;
-    if (dataToUpdate.slug !== undefined)
-      fieldsToUpdate.slug = dataToUpdate.slug;
-    if (dataToUpdate.excerpt !== undefined)
-      fieldsToUpdate.excerpt = dataToUpdate.excerpt;
-    if (dataToUpdate.content !== undefined)
-      fieldsToUpdate.content = dataToUpdate.content;
-    if (dataToUpdate.coverImageUrl !== undefined)
-      fieldsToUpdate.coverImageUrl = dataToUpdate.coverImageUrl;
-    if (dataToUpdate.published !== undefined)
-      fieldsToUpdate.published = dataToUpdate.published;
-    if (dataToUpdate.author !== undefined)
-      fieldsToUpdate.author = dataToUpdate.author;
+    const updatedAt = new Date().toISOString();
 
-    // sempre atualiza o timestamp
-    fieldsToUpdate.updatedAt = new Date().toISOString();
+    const postData = {
+      author: newPostData.author,
+      content: newPostData.content,
+      coverImageUrl: newPostData.coverImageUrl,
+      excerpt: newPostData.excerpt,
+      published: newPostData.published,
+      title: newPostData.title,
+      updatedAt,
+    };
 
-    const [updated] = await drizzleDb
-      .update(postTable)
-      .set(fieldsToUpdate)
-      .where(eq(postTable.id, id))
-      .returning();
+    await drizzleDb.update(postTable).set(postData).where(eq(postTable.id, id));
 
-    return updated ?? null;
+    return {
+      ...oldPost,
+      ...postData,
+    };
   }
+  // async update(
+  //   id: string,
+  //   postData: Partial<PostModel>,
+  // ): Promise<PostModel | null> {
+  //   const { id: _, ...dataToUpdate } = postData;
 
-  async delete(id: string): Promise<boolean> {
-    throw new Error('Method not implemented.');
+  //   // monta dinamicamente os campos a atualizar
+  //   const fieldsToUpdate: Partial<PostModel> = {};
+
+  //   if (dataToUpdate.title !== undefined)
+  //     fieldsToUpdate.title = dataToUpdate.title;
+  //   if (dataToUpdate.slug !== undefined)
+  //     fieldsToUpdate.slug = dataToUpdate.slug;
+  //   if (dataToUpdate.excerpt !== undefined)
+  //     fieldsToUpdate.excerpt = dataToUpdate.excerpt;
+  //   if (dataToUpdate.content !== undefined)
+  //     fieldsToUpdate.content = dataToUpdate.content;
+  //   if (dataToUpdate.coverImageUrl !== undefined)
+  //     fieldsToUpdate.coverImageUrl = dataToUpdate.coverImageUrl;
+  //   if (dataToUpdate.published !== undefined)
+  //     fieldsToUpdate.published = dataToUpdate.published;
+  //   if (dataToUpdate.author !== undefined)
+  //     fieldsToUpdate.author = dataToUpdate.author;
+
+  //   // sempre atualiza o timestamp
+  //   fieldsToUpdate.updatedAt = new Date().toISOString();
+
+  //   const [updated] = await drizzleDb
+  //     .update(postTable)
+  //     .set(fieldsToUpdate)
+  //     .where(eq(postTable.id, id))
+  //     .returning();
+
+  //   return updated ?? null;
+  // }
+
+  async delete(id: string): Promise<PostModel> {
+    const post = await drizzleDb.query.posts.findFirst({
+      where: (posts, { eq }) => eq(posts.id, id),
+    });
+
+    if (!post) {
+      throw new Error('Post não existe');
+    }
+
+    await drizzleDb.delete(postTable).where(eq(postTable.id, id));
+
+    return post;
   }
 }
 

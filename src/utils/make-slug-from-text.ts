@@ -1,4 +1,3 @@
-import { strict } from 'assert';
 import slugify from 'slugify';
 import { makeRandoString } from './make-random-string';
 
