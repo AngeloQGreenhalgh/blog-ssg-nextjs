@@ -9,12 +9,13 @@ import { PostUpdateSchema } from '@/lib/post/validations';
 import { postRepository } from '@/repositories/post';
 import { asyncDelay } from '@/utils/async-delay';
 import { getZodErrorMessages } from '@/utils/get-zod-error-messages';
+import { makeRandoString } from '@/utils/make-random-string';
 import { revalidateTag } from 'next/cache';
 
 type UpdatePostActionState = {
   formState: PublicPost;
   errors: string[];
-  Success?: true;
+  Success?: string;
 };
 
 export async function updatePostAction(
@@ -79,6 +80,6 @@ export async function updatePostAction(
   return {
     formState: makePublicPostFromDb(post),
     errors: [],
-    Success: true,
+    Success: makeRandoString(),
   };
 }
