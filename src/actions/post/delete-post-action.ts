@@ -3,7 +3,7 @@ import { postRepository } from '@/repositories/post';
 import { revalidateTag } from 'next/cache';
 
 export async function deletePostAction(id: string) {
-  // TODO: CHecar login do usuário
+  // TODO: Checar login do usuário
 
   if (!id || typeof id !== 'string') {
     return {

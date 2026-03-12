@@ -51,7 +51,6 @@ export function ImageUploader({ disabled = false }: ImageUploaderProps) {
     const formData = new FormData();
     formData.append('file', file);
 
-    // TODO: Criar a action para upload de arquivo
     startTransition(async () => {
       const result = await uploadImageAction(formData);
 
