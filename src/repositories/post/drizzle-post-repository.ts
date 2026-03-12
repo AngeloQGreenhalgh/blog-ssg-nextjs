@@ -10,7 +10,6 @@ import { SIMULATE_WAIT_IN_MS } from '@/lib/constants';
 export class DrizzlePostRepository implements PostRepository {
   async findAllPublic(): Promise<PostModel[]> {
     await asyncDelay(SIMULATE_WAIT_IN_MS, true);
-    logColor('findAllPublic', Date.now());
 
     const posts = await drizzleDb.query.posts.findMany({
       orderBy: (posts, { desc }) => desc(posts.createdAt),
@@ -22,8 +21,6 @@ export class DrizzlePostRepository implements PostRepository {
 
   async findBySlugPublic(slug: string): Promise<PostModel> {
     await asyncDelay(SIMULATE_WAIT_IN_MS, true);
-    logColor('findBySlugPublic', Date.now());
-
     const post = await drizzleDb.query.posts.findFirst({
       where: (post, { eq, and }) =>
         and(eq(post.slug, slug), eq(post.published, true)),
@@ -37,7 +34,6 @@ export class DrizzlePostRepository implements PostRepository {
 
   async findAll(): Promise<PostModel[]> {
     await asyncDelay(SIMULATE_WAIT_IN_MS, true);
-    logColor('findAll', Date.now());
 
     const posts = await drizzleDb.query.posts.findMany({
       orderBy: (posts, { desc }) => desc(posts.createdAt),
@@ -47,7 +43,6 @@ export class DrizzlePostRepository implements PostRepository {
   }
   async findById(id: string): Promise<PostModel> {
     await asyncDelay(SIMULATE_WAIT_IN_MS, true);
-    logColor('findById', Date.now());
 
     const post = await drizzleDb.query.posts.findFirst({
       where: (post, { eq }) => eq(post.id, id),
@@ -105,42 +100,6 @@ export class DrizzlePostRepository implements PostRepository {
       ...postData,
     };
   }
-  // async update(
-  //   id: string,
-  //   postData: Partial<PostModel>,
-  // ): Promise<PostModel | null> {
-  //   const { id: _, ...dataToUpdate } = postData;
-
-  //   // monta dinamicamente os campos a atualizar
-  //   const fieldsToUpdate: Partial<PostModel> = {};
-
-  //   if (dataToUpdate.title !== undefined)
-  //     fieldsToUpdate.title = dataToUpdate.title;
-  //   if (dataToUpdate.slug !== undefined)
-  //     fieldsToUpdate.slug = dataToUpdate.slug;
-  //   if (dataToUpdate.excerpt !== undefined)
-  //     fieldsToUpdate.excerpt = dataToUpdate.excerpt;
-  //   if (dataToUpdate.content !== undefined)
-  //     fieldsToUpdate.content = dataToUpdate.content;
-  //   if (dataToUpdate.coverImageUrl !== undefined)
-  //     fieldsToUpdate.coverImageUrl = dataToUpdate.coverImageUrl;
-  //   if (dataToUpdate.published !== undefined)
-  //     fieldsToUpdate.published = dataToUpdate.published;
-  //   if (dataToUpdate.author !== undefined)
-  //     fieldsToUpdate.author = dataToUpdate.author;
-
-  //   // sempre atualiza o timestamp
-  //   fieldsToUpdate.updatedAt = new Date().toISOString();
-
-  //   const [updated] = await drizzleDb
-  //     .update(postTable)
-  //     .set(fieldsToUpdate)
-  //     .where(eq(postTable.id, id))
-  //     .returning();
-
-  //   return updated ?? null;
-  // }
-
   async delete(id: string): Promise<PostModel> {
     const post = await drizzleDb.query.posts.findFirst({
       where: (posts, { eq }) => eq(posts.id, id),
@@ -155,36 +114,3 @@ export class DrizzlePostRepository implements PostRepository {
     return post;
   }
 }
-
-(async () => {
-  //const repo = new DrizzlePostRepository();
-  // console.log('Teste do DrizzlePostRepository');
-  // const posts = await repo.findAll();
-  // posts.forEach(post => {
-  //   console.log(post.slug, post.published);
-  // });
-  // const post = await repo.findAll();
-  // post.slug = 'rotina-matinal-de-pessoas-altamente-eficazes';
-  // const postUpdate = await repo.update(post.id, post);
-  // console.log(postUpdate);
-  // const post = await repo.findBySlugPublic('teste');
-  //console.log(post);
-  // const posts = await repo.findAll();
-  // posts.forEach(post => {
-  //   console.log(post.id, post.slug, post.published);
-  // });
-  // 6b204dab-2312-4525-820a-a0463560835f como-a-tecnologia-impacta-nosso-bem-estar false
-  // 76396dd3-9581-43b5-856d-fe1a78714e8c os-desafios-do-trabalho-remoto-moderno true
-  // const post = await repo.findById('99f8add4-7684-4c16-a316-616271db199e');
-  // console.log(post);
-  // post.title = 'Rotina matinal de pessoas altamente eficazes';
-  // console.log(post);
-  // const postUpdate = await repo.update(post.id, post);
-  // console.log(postUpdate);
-  // const post1 = await repo.findById('99f8add4-7684-4c16-a316-616271db199e');
-  // console.log(post1);
-  // // const post = await repo.findById('76396dd3-9581-43b5-856d-fe1a78714e8c');
-  //  console.log(postUpdate);
-  // const post = await repo.findById('76396dd3-9581-43b5-856d-fe1a78714e8m');
-  // console.log(post);
-})();

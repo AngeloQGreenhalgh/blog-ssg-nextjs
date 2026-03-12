@@ -59,12 +59,9 @@ export function ImageUploader({ disabled = false }: ImageUploaderProps) {
         setImgUrl('');
         return;
       }
-      // TODO: continuar depois
       setImgUrl(result.url);
       toast.success('Imagem enviada');
     });
-
-    //console.log(formData.get('file'));
 
     fileInput.value = '';
   }

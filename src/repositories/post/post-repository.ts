@@ -6,7 +6,6 @@ export interface PostRepository {
   findAll(): Promise<PostModel[]>;
   findById(id: string): Promise<PostModel>;
   create(post: PostModel): Promise<PostModel>;
-  //update(id: string, postData: Partial<PostModel>): Promise<PostModel | null>;
   delete(id: string): Promise<PostModel>;
   update(
     id: string,
