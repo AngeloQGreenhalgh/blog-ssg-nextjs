@@ -3,6 +3,7 @@ import { PostRepository } from './post-repository';
 import { resolve } from 'path';
 import { readFile, writeFile } from 'fs/promises';
 
+// Acessando a variável de ambiente
 const simulateWaitMs = Number(process.env.SIMULATE_WAIT_IN_MS) || 0;
 
 const ROOT_DIR = process.cwd();
