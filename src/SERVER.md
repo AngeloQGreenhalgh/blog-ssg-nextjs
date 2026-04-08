@@ -1,6 +1,6 @@
 # Servidor
 
-Comandos para iniciar o site do zero:
+# Comandos para iniciar o site do zero:
 
 ```sh
 # Ter o Node instalado
