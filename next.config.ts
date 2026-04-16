@@ -19,6 +19,13 @@ const nextConfig: NextConfig = {
         pathname: '/**',
         search: '',
       },
+      {
+        protocol: 'https',
+        hostname: 'theblog.angelogreenhalgh.dev.br',
+        port: '',
+        pathname: '/**',
+        search: '',
+      },
     ],
     // Em desenvolvimento, você pode desativar a otimização
     unoptimized: process.env.NODE_ENV === 'development',
